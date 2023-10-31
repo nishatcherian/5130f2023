@@ -1,0 +1,55 @@
+<!-- Author: Nisha Thankam Cherian -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Reference of below script: https://www.apispreadsheets.com/ -->
+    <script
+		src="https://code.jquery.com/jquery-3.4.1.js"
+		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+		crossorigin="anonymous"></script>
+	<script>
+		function SubAction (){
+			$.ajax({
+				url:"https://api.apispreadsheets.com/data/44F46iANdgYieTL1/",
+				type:"post",
+				data:$("#mySurvey").serializeArray(),
+				success: function(){
+					alert("Thank you for participating. Your data has been submitted.")
+				},
+				error: function(){
+					alert("There was an error")
+				}
+			});
+		}
+	</script>
+  </head>
+<body>
+  <h1>Survey</h1>
+  <form id="mySurvey">
+    Current Location : <input type = "text" name = "current_loc"><br><br>
+    Hometown : <input type = "text" name = "hometown"><br><br>
+    Place you like to settle : <input type = "text" name = "dream_place"><br><br>
+    Location where family is : <input type = "text" name ="family_loc"><br><br>
+    Place of Birth : <input type = "text" name = "birthplace"><br><br>
+    Place where your significant other grew up : <input type = "text" name = "spouseplace"><br><br>
+    Date of Birth : <input type = "date" name = "DOB" min = "01/01/1900" max = "01/01/2050">
+    <br>
+    <br>
+    Occupation : <input type = "text" name = "occupation"><br><br>
+    Email id : <input type="email" id="email" name="email"><br><br>
+    <b>Your Investment Portfolio</b><br><br>
+    Total number of investments : <input type = "number" name = "total_investments" min="0">
+    Type of Investments : <input type = "text" name = "investment_type"><br><br>
+    Investment Names : <textarea name = "investname_name" rows="3" cols="25"></textarea><br><br>
+    <b>Family's Investment Portfolio</b><br><br>
+    Type of Investments : <input type = "text" name = "family_investment_type">
+    Investment Names : <textarea name = "family_investname_name" rows="3" cols="25"></textarea><br><br>
+    What percentage of your salary do you invest : <input type = "number" name = "investment_percent" min="0">%<br><br>
+    Your Image : <input type="file" name="image"
+     accept="image/jpeg, image/png, .pdf"><br><br>
+     <button type = "reset" value = "reset" class = "btn">Reset</button><br><br>
+ </form>
+    <button type = "submit" onclick="SubAction()" name = "submit">Submit</button><br><br>
+    <a href="index.html">Go back to Home Page</a> <br>
+</body>
+</html>

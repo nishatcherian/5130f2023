@@ -1,0 +1,73 @@
+/* Author: Nisha Thankam Cherian */
+
+  
+  
+  .welcome {
+    text-align: center;
+    animation-name: anime;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes anime {
+    from {color: brown;}
+    to {color: rgb(203, 203, 60);}
+  }
+  
+  .grid-container {
+    display: flex;
+  }
+  .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 270px;
+      margin: 30px;
+      text-align: center;
+      font-family: arial;
+    }
+    
+    .title {
+      color: grey;
+      font-size: 18px;
+    }
+    
+    a {
+      text-decoration: none;
+      font-size: 22px;
+      color: black;
+      padding: 4px;
+    }
+
+    
+  
+    .aboutme {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      flex-grow: 1;
+      margin-top: 35px;
+      margin-left: 20px;
+      max-width: 790px;
+      height: 150px;
+      text-align: left;
+      font-family: arial;
+    }
+  
+    .about {
+      padding-left: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+    }
+  
+    .survey {
+        position: relative;
+        top : -400px;
+        margin-left: 400px;
+        font-family: 'Lato', sans-serif;
+    }
+
+    .surveylink {
+        position: relative;
+        top : -420px;
+        margin-left: 680px;
+        font-family: 'Lato', sans-serif;
+    }
+  
+    
