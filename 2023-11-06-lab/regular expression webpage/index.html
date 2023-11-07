@@ -1,0 +1,69 @@
+<!-- Author: Nisha Thankam Cherian -->
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function validate() {
+            
+            let email = document.forms["myForm"]["email"].value;
+            let phoneNumber = document.forms["myForm"]["phone_no"].value;
+            let url = document.forms["myForm"]["webpage_url"].value;
+            
+            if (!checkAt(email)){
+                alert("@ symbol is missing")
+            }
+            else if (!isValidEmail(email)) {
+                alert("Please provide a valid email address.");
+            }
+            else if (!isValidPhoneNumber(phoneNumber)) {
+                alert("Please provide a valid phone number.");
+            }
+            else if (!checkURL(url)) {
+                alert("URL should start with http or https or ftp or file");
+            }
+            else if (!isValidURL(url)) {
+                alert("Please provide a valid webpage URL.");
+            }
+            else{
+                alert("Form submitted successfully");
+            }
+
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /\b[\w.-]+@[\w.-]+\.[a-zA-Z]{2,4}$\b/;
+            return emailRegex.test(email);
+        }
+        function checkAt(email) {
+            const atRegex = /@/;
+            return atRegex.test(email);
+        }
+        function isValidPhoneNumber(phoneNumber) {
+            const numberRegex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{4}$/;
+            return numberRegex.test(phoneNumber);
+        }
+        function checkURL(url) {
+            const urlReg = /^(http|ftp|https|file):\/\//;
+            return urlReg.test(url);
+        }
+        function isValidURL(url) {
+            const urlRegex = /^(http|ftp|https|file):\/\/(?:www\.)?[a-zA-Z0-9-]+\.[a-z]{2,}(?:\/\S*)?/;
+            return urlRegex.test(url);
+        }
+    </script>
+</head>
+ 
+<body>
+  <h1>Form</h1>
+  <form id="myForm">
+    
+    Email id : <input type="email" id="email" name="email"><br><br>
+    Phone# : <input type = "text" name = "phone_no"><br><br>
+    Webpage : <input type = "text" name = "webpage_url"><br><br>
+   
+     <button type = "submit" onclick="validate()" name = "submit">Submit</button>
+     <button type = "reset" value = "reset" class = "btn">Cancel</button><br><br>
+ </form>
+  
+</body>
+</html>
