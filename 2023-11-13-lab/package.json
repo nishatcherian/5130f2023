@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  },
+  "name": "2023-11-13-lab",
+  "version": "1.0.0",
+  "description": "webpage",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nisha",
+  "license": "ISC"
+}
