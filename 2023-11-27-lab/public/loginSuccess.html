@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#764ABC"/>
+    <title>Successful login</title>
+  </head>
+    <body>
+        <p>Hello! Your login is Successful</p>
+        <br/>
+        <p>Please wait while details are loaded</p>
+        <p>Your Location Details :</p>
+        <p id="loc"></p>
+        <p id="weather"></p>
+        <p id="language"></p>
+        <script>
+            var x = document.getElementById("loc").innerHTML;
+            var latitude;
+            var longitude;
+            getLocation(); 
+            
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+              } else { 
+                loc.innerHTML = "Geolocation is not supported by this browser.";
+              }
+            }
+            
+            function showPosition(position) {
+              if(latitude == 'undefined'){
+                loc.innerHTML = "Loading....Please wait";
+              }
+              loc.innerHTML = "Latitude: " + position.coords.latitude + 
+              "<br>Longitude: " + position.coords.longitude;
+              latitude = position.coords.latitude;
+              longitude = position.coords.longitude;
+              const apiKey = '7f41f4b7677c4fdfa7115002231411';
+
+              
+            
+            if(latitude != 'undefined'){
+            fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${latitude},${longitude}&aqi=no`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                weather.innerHTML="Weather data" + "<br>Temperature in Celcius: " + data.current.temp_c +
+                "<br>Humidity: " + data.current.humidity +
+                "<br><br>Local Time: " + data.location.localtime +
+                "<br>City: " + data.location.name +
+                "<br>State: " + data.location.region +
+                "<br>Country:" + data.location.country;
+         
+            })
+            .catch(error => console.error('Error fetching weather data:', error));
+
+            }
+            const userLanguage = navigator.language || navigator.userLanguage;
+            language.innerHTML="Local Language: " + userLanguage;
+
+            }
+            
+            
+            </script>
+    </body>
+</html>

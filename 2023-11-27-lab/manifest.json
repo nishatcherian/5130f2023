@@ -1,0 +1,16 @@
+{
+    "name": "Nisha's Signin Signup Page",
+    "short_name": "welcome-page",
+    "start_url": "/",
+    "scope": "./",
+    "icons": [
+      {
+        "src": "icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "theme_color": "#ffd31d",
+    "background_color": "#333",
+    "display": "fullscreen"
+}
