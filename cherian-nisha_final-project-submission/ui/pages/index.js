@@ -22,7 +22,7 @@ export default function SignInSide() {
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
-    fetch('http://localhost:8000/users/checkpassword', {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_PATH+ '/users/checkpassword', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

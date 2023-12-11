@@ -10,16 +10,19 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const router = useRouter();
+  const [error,setError]= React.useState(null);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
-    fetch('http://localhost:8000/users', {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_PATH+'/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -33,9 +36,18 @@ export default function SignUp() {
     }).then(response => {
         return response.json() 
     }).then(data => {
-        if(data){
-            alert("Signup Successful")
+      console.log(data);
+      if(data.status == 'success'){
+        var result = confirm("Signup Successful");
+        if(result) {
+          router.push('/')
         }
+      }
+      if(data.status == 'user_exists'){
+        setError('User already exists');
+      }
+      
+        
     })
   };
 
@@ -97,6 +109,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
+          {error && <Typography variant='body1' sx={{ color:'red' }}>{error}</Typography>}
         </Box>
       </Container>
     </ThemeProvider>

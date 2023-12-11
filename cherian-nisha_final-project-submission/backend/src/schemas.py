@@ -26,7 +26,7 @@ class ShoppingList(BaseModel):
     name: str
     description: str
     userid: str
-    avgprice: Optional[int] = 10
+    avgprice: Optional[float] = 0
     items: Optional[list[Item]] = []
 
     class Config:

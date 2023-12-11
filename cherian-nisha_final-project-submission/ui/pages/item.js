@@ -1,6 +1,8 @@
-import { Container, Typography, Button, Box, Modal, TextField } from "@mui/material";
+import { Container, Typography, Button, Box, Modal, TextField, 
+    TableContainer, Paper, Table, TableHead, TableCell, 
+    TableBody, TableRow, IconButton } from "@mui/material";
 import * as React from 'react';
-import ItemTable from "@/components/itemtable";
+import { DeleteOutlined } from '@mui/icons-material';
 import useSWR, { useSWRConfig } from 'swr'
 import { useRouter } from 'next/router';
 
@@ -29,8 +31,22 @@ export default function item() {
     const router = useRouter();
     const query = router.query;
     const listid = query.listid;
+    const handleItemDelete = (id) => {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists/' + listid + '/items/' +id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            return response.json()
+
+        }).then(data => {
+            mutate(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists/' + listid)
+            setOpen(false);
+        })
+    }
     const handleSubmitButtonClick = () => {
-        fetch('http://localhost:8000/lists/'+listid+'/items', {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists/' + listid + '/items', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -48,16 +64,18 @@ export default function item() {
             return response.json()
 
         }).then(data => {
-            mutate('http://localhost:8000/lists/'+ listid)
-            setOpen(false);
+            mutate(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists/' + listid)
+            handleClose();
         })
 
     }
     const handleClose = () => {
+        setNewItemName('');
+        setNewItemDescription('');
+        setNewPrice(0);
         setOpen(false);
     }
-    console.log('listid: '+ listid)
-    const { data: shoppinglist, error } = useSWR('http://localhost:8000/lists/'+ listid, fetcher)
+    const { data: shoppinglist, error } = useSWR(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists/' + listid, fetcher)
     if (error) return <div>Failed to load</div>
     if (!shoppinglist) return <div>Loading...</div>
     // console.log(data.items)
@@ -68,7 +86,38 @@ export default function item() {
                 <Typography variant="subtitle1">{shoppinglist.description}</Typography>
                 <br />
                 <br />
-                <ItemTable items={shoppinglist.items}></ItemTable>
+                <TableContainer component={Paper} sx={{ backgroundColor: 'lightgray', width: '70%' }}>
+                    <Table sx={{ minWidth: 650 }} aria-label="item table">
+                        <TableHead >
+                            <TableRow>
+                                <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
+                                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Notes</TableCell>
+                                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Price</TableCell>
+                                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Link</TableCell>
+                                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Delete</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {shoppinglist.items.map((item) => (
+                                <TableRow
+                                    key={item.name}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {item.name}
+                                    </TableCell>
+                                    <TableCell align="left">{item.description}</TableCell>
+                                    <TableCell align="left">{item.price}</TableCell>
+                                    <TableCell align="left"><a href={item.link}>Link</a></TableCell>
+                                    <TableCell align="left"><IconButton aria-label="settings" onClick={()=>{handleItemDelete(item.id)}}>
+                                        <DeleteOutlined />
+                                    </IconButton></TableCell>
+                                </TableRow>
+
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
                 <br />
                 <Box sx={{ width: '70%' }}>
                     <Button variant="contained" sx={{ float: 'right' }} onClick={handleOpen}>Add Item</Button>
@@ -91,17 +140,17 @@ export default function item() {
                     <br />
                     <br />
                     <br />
-                    <TextField required label="Item description" multiline rows={7} sx={{
+                    <TextField label="Item notes" multiline rows={7} sx={{
                         width: '800px'
                     }} onChange={(e) => setNewItemDescription(e.target.value)}></TextField>
                     <br />
                     <br />
-                    <TextField required label="Price" sx={{
+                    <TextField label="Price" sx={{
                         width: '800px'
                     }} onChange={(e) => setNewPrice(e.target.value)}></TextField>
                     <br />
                     <br />
-                    <TextField required label="Link" sx={{
+                    <TextField label="Link" sx={{
                         width: '800px'
                     }} onChange={(e) => setNewLink(e.target.value)}></TextField>
                     <br />

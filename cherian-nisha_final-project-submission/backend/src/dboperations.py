@@ -12,14 +12,18 @@ def check_user_password(db: Session, userid: str, password: str) -> bool:
     return False
 
 def create_user(db: Session, user: schemas.UserPassword):
+    db_user = db.query(models.User).filter(models.User.userid == user.userid).first()
+    if db_user:
+        return {'status': 'user_exists'}
     db_user = models.User(userid=user.userid, password=user.password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user
+    return {'status': 'success'}
 
 def get_lists(db: Session, userid: str):
-    return db.query(models.ShoppingList).filter(models.ShoppingList.userid == userid)
+    temp = db.query(models.ShoppingList).filter(models.ShoppingList.userid == userid)
+    return temp
 
 def get_list_by_id(db: Session, listid: str):
     return db.query(models.ShoppingList).filter(models.ShoppingList.id == listid)

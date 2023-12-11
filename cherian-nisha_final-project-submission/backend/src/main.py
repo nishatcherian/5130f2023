@@ -35,7 +35,7 @@ def check_user_password(userpassword: schemas.UserPassword, db: Session = Depend
 
 @app.post('/users')
 def create_users(user: schemas.UserPassword, db: Session = Depends(get_db)):
-    dboperations.create_user(db, user)
+    return dboperations.create_user(db, user)
 
 @app.get('/lists', response_model=list[schemas.ShoppingList])
 def get_lists(userid: str = Query(), db: Session = Depends(get_db)):

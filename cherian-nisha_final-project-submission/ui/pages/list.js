@@ -34,7 +34,7 @@ export default function list() {
   }
   const handleSubmitButtonClick = () => {
     
-    fetch('http://localhost:8000/lists', {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_PATH+ '/lists', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -50,12 +50,12 @@ export default function list() {
         return response.json()
 
     }).then(data => {
-        mutate('http://localhost:8000/lists?userid='+userid)
+        mutate(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists?userid='+userid)
         setOpen(false);
     })
  }
  const handleListDelete = (listid) => {
-  fetch('http://localhost:8000/lists/'+listid, {
+  fetch(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists/'+listid, {
       method: 'DELETE',
       headers: {
           'Content-Type': 'application/json'
@@ -64,14 +64,14 @@ export default function list() {
       return response.json()
 
   }).then(data => {
-      mutate('http://localhost:8000/lists?userid='+userid)
+      mutate(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists?userid='+userid)
   })
 
 }
 
 
 
-  const { data: shoppinglists, error } = useSWR('http://localhost:8000/lists?userid='+userid,
+  const { data: shoppinglists, error } = useSWR(process.env.NEXT_PUBLIC_BACKEND_PATH+'/lists?userid='+userid,
     fetcher)
   if (error) return <div>Failed to load</div>
   if (!shoppinglists) return <div>Loading...</div>
@@ -99,7 +99,7 @@ export default function list() {
           <br />
           <br />
           <br />
-          <TextField required label="List description" multiline rows={7} sx={{
+          <TextField label="List description" multiline rows={7} sx={{
             width: '800px'
           }} onChange={(e) => setNewListDescription(e.target.value)}></TextField>
           <br />
